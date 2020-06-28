@@ -1,0 +1,7 @@
+name: fml-wright
+dependencies:
+  - python=3.8
+  - jupyter=1.0.0
+  - pip=20.1
+  - pip:
+      - pre-commit
