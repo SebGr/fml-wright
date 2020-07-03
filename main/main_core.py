@@ -103,9 +103,11 @@ def run_module_text_to_gdf(args):
     Args:
         args (argparse): Arguments added to the python script through argparse.
     """
-    data_gen.generate_geodataframe_file(
-        input_directory=args.input_directory, output_directory=args.output_directory,
+    GeoGenerator = data_gen.GeoDataGenerator(
+        input_directory=args.input_directory,
+        output_directory=args.output_directory,
     )
+    GeoGenerator.generate_dataset()
 
 
 def main(args):
