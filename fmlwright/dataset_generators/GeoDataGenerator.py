@@ -1,11 +1,12 @@
 import logging
 from pathlib import Path
-from joblib import Parallel, delayed
-import numpy as np
 
+import numpy as np
 import pandas as pd
-from fmlwright.core import preprocessing, data_sources, labeling
+from joblib import Parallel, delayed
 from tqdm import tqdm
+
+from fmlwright.core import preprocessing, data_sources, labeling
 
 log = logging.getLogger(__name__)
 
@@ -14,10 +15,12 @@ def split(a, n):
     """Split list a in n equal parts."""
     n = min(n, len(a))
     k, m = divmod(len(a), n)
-    return [a[i * k + min(i, m):(i + 1) * k + min(i + 1, m)] for i in range(n)]
+    return [a[i * k + min(i, m) : (i + 1) * k + min(i + 1, m)] for i in range(n)]
 
 
 class GeoDataGenerator:
+    """The GeoDataFrame generator class that turns txt files into geojson."""
+
     def __init__(self, input_directory, output_directory):
         """Initialize the GeoDataGenerator.
 
@@ -38,12 +41,11 @@ class GeoDataGenerator:
             dataset_block (int): Block number.
         """
         dataset_gdf = pd.concat(dataset)
-        dataset_gdf["original_file"] = dataset_gdf[
-            "original_file"
-        ].astype(str)
+        dataset_gdf["original_file"] = dataset_gdf["original_file"].astype(str)
 
         dataset_gdf.to_file(
-            str(self.output_directory / f"floorplans_{dataset_block}.json"), driver="GeoJSON"
+            str(self.output_directory / f"floorplans_{dataset_block}.json"),
+            driver="GeoJSON",
         )
 
     def generate_single_example(self, filename):
@@ -86,8 +88,10 @@ class GeoDataGenerator:
         dataset = []
         for i, _file in enumerate(data_files):
             try:
-                floorplan_gdf, index_single_example = self.generate_single_example(_file)
-                index_single_example['dataset_block'] = dataset_block
+                floorplan_gdf, index_single_example = self.generate_single_example(
+                    _file
+                )
+                index_single_example["dataset_block"] = dataset_block
 
                 index_file.append(index_single_example)
                 dataset.append(floorplan_gdf)
@@ -115,11 +119,12 @@ class GeoDataGenerator:
         data_file_blocks = split(data_files, n_blocks)
         dataset_blocks_ids = np.arange(len(data_file_blocks))
 
-        index_file = Parallel(n_jobs=-1)(delayed(self.generate_single_block)(
-            data_file_block,
-            dataset_block_id
-        ) for (data_file_block, dataset_block_id) in tqdm(zip(data_file_blocks,
-                                                              dataset_blocks_ids)))
+        index_file = Parallel(n_jobs=-1)(
+            delayed(self.generate_single_block)(data_file_block, dataset_block_id)
+            for (data_file_block, dataset_block_id) in tqdm(
+                zip(data_file_blocks, dataset_blocks_ids)
+            )
+        )
 
         index_df = pd.concat(index_file)
         index_df = index_df.fillna(0)
