@@ -52,7 +52,7 @@ class GeoDataGenerator:
         """Generate a single geodataframe from a text file.
 
         Args:
-            filename (str): File location
+            filename (Path): File location
 
         Returns:
             Tuple with the geodataframe and a dictionary with index information.
@@ -97,20 +97,28 @@ class GeoDataGenerator:
                 dataset.append(floorplan_gdf)
 
             except Exception as e:
-                log.warning(f"\nIssue with file: {_file}")
-                log.warning(f"\n{e}")
+                log.error(f"Issue with file: {_file}: {e}")
                 continue
         self.save_block(dataset_block=dataset_block, dataset=dataset)
+
+        index_df = pd.concat(index_file)
+        index_df = index_df.fillna(0)
+        index_df.to_csv(
+            self.output_directory / f"index_floorplans_{dataset_block}.csv", index=False
+        )
+
         return index_file
 
-    def generate_dataset(self, dataset_size=5000):
+    def generate_dataset(self, dataset_size=1000, n_jobs=-1, starting_block=0):
         """Function that does all of the work.
 
         It loads txt files and creates geojson files. The number of samples in a single file is
         based  on the dataset size.
 
         Args:
-            dataset_size (int): number of samples in a single geojson file.
+            dataset_size (int): Number of samples in a single geojson file.
+            n_jobs (int): Number of parallel threads to use.
+            starting_block (int): Starting block to continue the image generation.
         """
         data_files = [x for x in self.input_directory.glob("**/*.txt")]
         log.info(f"Creating shape file based on {len(data_files)} samples.")
@@ -119,7 +127,13 @@ class GeoDataGenerator:
         data_file_blocks = split(data_files, n_blocks)
         dataset_blocks_ids = np.arange(len(data_file_blocks))
 
-        index_file = Parallel(n_jobs=-1)(
+        if starting_block != 0:
+            data_file_blocks = data_file_blocks[starting_block:]
+            dataset_blocks_ids = dataset_blocks_ids[starting_block:]
+            log.info(f"Starting at a different block number: {starting_block}.")
+
+        log.info(f"Going through {n_blocks} blocks in parallel.")
+        index_file = Parallel(n_jobs=n_jobs)(
             delayed(self.generate_single_block)(data_file_block, dataset_block_id)
             for (data_file_block, dataset_block_id) in tqdm(
                 zip(data_file_blocks, dataset_blocks_ids)

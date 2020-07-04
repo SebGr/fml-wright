@@ -20,7 +20,7 @@ def parse_floorplan_txt(file_path):
     """Parse a single floorplan text.
 
     Args:
-        file_path (str): file location.
+        file_path (Path): file location.
 
     Returns:
         Geodataframe with the txt information processed.
