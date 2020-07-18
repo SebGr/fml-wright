@@ -84,15 +84,14 @@ class GeoDataGenerator:
         Returns:
             Index files
         """
-        index_file = []
-        dataset = []
+        index_file = list()
+        dataset = list()
         for i, _file in enumerate(data_files):
             try:
                 floorplan_gdf, index_single_example = self.generate_single_example(
                     _file
                 )
                 index_single_example["dataset_block"] = dataset_block
-
                 index_file.append(index_single_example)
                 dataset.append(floorplan_gdf)
 
@@ -107,9 +106,7 @@ class GeoDataGenerator:
             self.output_directory / f"index_floorplans_{dataset_block}.csv", index=False
         )
 
-        return index_file
-
-    def generate_dataset(self, dataset_size=1000, n_jobs=-1, starting_block=0):
+    def run(self, dataset_size=1000, n_jobs=-1, starting_block=0):
         """Function that does all of the work.
 
         It loads txt files and creates geojson files. The number of samples in a single file is
@@ -120,7 +117,7 @@ class GeoDataGenerator:
             n_jobs (int): Number of parallel threads to use.
             starting_block (int): Starting block to continue the image generation.
         """
-        data_files = [x for x in self.input_directory.glob("**/*.txt")]
+        data_files = sorted(self.input_directory.glob("**/*.txt"))
         log.info(f"Creating shape file based on {len(data_files)} samples.")
 
         n_blocks = int(len(data_files) / dataset_size)
@@ -133,13 +130,16 @@ class GeoDataGenerator:
             log.info(f"Starting at a different block number: {starting_block}.")
 
         log.info(f"Going through {n_blocks} blocks in parallel.")
-        index_file = Parallel(n_jobs=n_jobs)(
+        Parallel(n_jobs=n_jobs)(
             delayed(self.generate_single_block)(data_file_block, dataset_block_id)
             for (data_file_block, dataset_block_id) in tqdm(
                 zip(data_file_blocks, dataset_blocks_ids)
             )
         )
 
-        index_df = pd.concat(index_file)
-        index_df = index_df.fillna(0)
-        index_df.to_csv(self.output_directory / "index_floorplans.csv", index=False)
+        log.info(f"Combining the separate index files..")
+        index_floorplan = sorted(self.output_directory.glob("index_floorplans_*.csv"))
+        log.info(f"Found {len(index_floorplan)} index block files.")
+        index_files = pd.concat([pd.read_csv(_file) for _file in index_floorplan])
+        index_files = index_files.fillna(0)
+        index_files.to_csv(self.output_directory / "index_floorplans.csv", index=False)

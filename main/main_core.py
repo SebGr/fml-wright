@@ -36,7 +36,7 @@ def run_module_structure_plan(args):
             output_directory=args.output_directory,
             img_quality=img_quality,
         )
-        StructureGenerator.generate_images(n_jobs=args.n_jobs)
+        StructureGenerator.run(n_jobs=args.n_jobs, starting_block=args.starting_block)
     elif step == "generate_dataset":
         DatasetGenerator = data_gen.DatasetGenerator(
             input_directory=args.input_directory, output_directory=args.output_directory
@@ -58,7 +58,7 @@ def run_module_floor_plan(args):
             output_directory=args.output_directory,
             img_quality=img_quality,
         )
-        FloorplanGenerator.generate_images(n_jobs=args.n_jobs)
+        FloorplanGenerator.run(n_jobs=args.n_jobs, starting_block=args.starting_block)
     elif step == "generate_dataset":
         DatasetGenerator = data_gen.DatasetGenerator(
             input_directory=args.input_directory, output_directory=args.output_directory
@@ -80,7 +80,7 @@ def run_module_complete_floorplan(args):
             output_directory=args.output_directory,
             img_quality=img_quality,
         )
-        FloorplanGenerator.generate_images(n_jobs=args.n_jobs)
+        FloorplanGenerator.run(n_jobs=args.n_jobs, starting_block=args.starting_block)
     elif step == "generate_dataset":
         DatasetGenerator = data_gen.DatasetGenerator(
             input_directory=args.input_directory, output_directory=args.output_directory
@@ -106,9 +106,7 @@ def run_module_text_to_gdf(args):
     GeoGenerator = data_gen.GeoDataGenerator(
         input_directory=args.input_directory, output_directory=args.output_directory,
     )
-    GeoGenerator.generate_dataset(
-        n_jobs=args.n_jobs, starting_block=args.starting_block
-    )
+    GeoGenerator.run(n_jobs=args.n_jobs, starting_block=args.starting_block)
 
 
 def main(args):
@@ -175,7 +173,7 @@ if __name__ == "__main__":
         type=int,
         metavar="starting_block",
         default=0,
-        help="Number of block to start at. Assumes that the block size hasn't changed.",
+        help="Number of block or image to start at. Assumes that the block size hasn't changed.",
     )
 
     args = parser.parse_args()
