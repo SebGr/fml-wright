@@ -34,8 +34,6 @@ class ImageBaseGenerator:
         self.output_directory = Path(output_directory)
         self.img_quality = img_quality
 
-        self.store_index_per_n = 1000
-
         self.output_directory.mkdir(parents=True, exist_ok=False)
         (self.output_directory / "input").mkdir(parents=True, exist_ok=True)
         (self.output_directory / "output").mkdir(parents=True, exist_ok=True)
@@ -105,7 +103,8 @@ class ImageBaseGenerator:
             return relevant_index_df
 
         except Exception as e:
-            log.error(f"Issue with file: {original_file}: {e}")
+            log.error(f"Issue with file: {original_file}")
+            log.error(f"{e}")
             return pd.DataFrame()
 
     def generate_single_block(self, gdf, block_number, dataset_size):
@@ -166,10 +165,6 @@ class ImageBaseGenerator:
         else:
             index_files = pd.read_csv(self.input_directory / "index_floorplans.csv")
         log.info("Files have been loaded.")
-
-        if starting_block > 0:
-            log.info(f"Alternative starting point has been chosen, at {starting_block}")
-            index_files = index_files.iloc[starting_block:].copy()
 
         self.irrelevant_index_columns = list(floorplans_gdf.columns)
 
