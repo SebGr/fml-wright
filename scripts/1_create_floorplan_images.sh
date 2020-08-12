@@ -1,7 +1,7 @@
 # run from root directory
 # bash scripts/1_create_floorplan_images.sh
 
-input_directory='./data/all_representation_prediction'
+input_directory='./data/geodata'
 output_directory='./data/images/floorplan'
 module='floor_plan'
 step='generate_images'

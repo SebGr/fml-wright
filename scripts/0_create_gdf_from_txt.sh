@@ -2,7 +2,7 @@
 # bash scripts/0_create_gdf_from_txt.sh
 
 input_directory='./data/representation_prediction'
-output_directory='./data/geo/representation_prediction'
+output_directory='./data/geodata'
 module='text_to_gdf'
 step='generate_images' # irrelevant
 

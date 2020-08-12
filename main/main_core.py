@@ -36,7 +36,7 @@ def run_module_structure_plan(args):
             output_directory=args.output_directory,
             img_quality=img_quality,
         )
-        StructureGenerator.generate_images()
+        StructureGenerator.run(n_jobs=args.n_jobs, starting_block=args.starting_block)
     elif step == "generate_dataset":
         DatasetGenerator = data_gen.DatasetGenerator(
             input_directory=args.input_directory, output_directory=args.output_directory
@@ -58,7 +58,7 @@ def run_module_floor_plan(args):
             output_directory=args.output_directory,
             img_quality=img_quality,
         )
-        FloorplanGenerator.generate_images()
+        FloorplanGenerator.run(n_jobs=args.n_jobs, starting_block=args.starting_block)
     elif step == "generate_dataset":
         DatasetGenerator = data_gen.DatasetGenerator(
             input_directory=args.input_directory, output_directory=args.output_directory
@@ -80,7 +80,7 @@ def run_module_complete_floorplan(args):
             output_directory=args.output_directory,
             img_quality=img_quality,
         )
-        FloorplanGenerator.generate_images()
+        FloorplanGenerator.run(n_jobs=args.n_jobs, starting_block=args.starting_block)
     elif step == "generate_dataset":
         DatasetGenerator = data_gen.DatasetGenerator(
             input_directory=args.input_directory, output_directory=args.output_directory
@@ -103,9 +103,10 @@ def run_module_text_to_gdf(args):
     Args:
         args (argparse): Arguments added to the python script through argparse.
     """
-    data_gen.generate_geodataframe_file(
+    GeoGenerator = data_gen.GeoDataGenerator(
         input_directory=args.input_directory, output_directory=args.output_directory,
     )
+    GeoGenerator.run(n_jobs=args.n_jobs, starting_block=args.starting_block)
 
 
 def main(args):
@@ -159,6 +160,20 @@ if __name__ == "__main__":
         type=str,
         metavar="output_directory",
         help="output directory",
+    )
+    parser.add_argument(
+        "--n_jobs",
+        type=int,
+        metavar="n_jobs",
+        default=-1,
+        help="Number of parallel threads.",
+    )
+    parser.add_argument(
+        "--starting_block",
+        type=int,
+        metavar="starting_block",
+        default=0,
+        help="Number of block or image to start at. Assumes that the block size hasn't changed.",
     )
 
     args = parser.parse_args()

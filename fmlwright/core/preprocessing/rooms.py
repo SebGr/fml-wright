@@ -125,8 +125,8 @@ def create_subrooms(areas_gdf, rooms_gdf):
             line_between = LineString(list(temp.geometry.values))
 
             if line_between.length == 0:
-                log.warning("Two points overlap, moving on.")
                 continue
+
             p_1 = line_between.parallel_offset(200, "left").centroid
             p_2 = line_between.parallel_offset(200, "right").centroid
             orthogonal_line_between = LineString([p_1, p_2])

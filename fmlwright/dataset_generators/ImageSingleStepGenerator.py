@@ -68,11 +68,6 @@ class ImageSingleStepGenerator(ImageBaseGenerator):
         windows = self.find_overlap(extended_doors, outer_walls)
         windows["colors"] = "red"
 
-        CATEGORIES_TO_DROP = ["wall", "door", "entrance"]
-        areas_gdf = areas_gdf.loc[
-            ~areas_gdf["category"].isin(CATEGORIES_TO_DROP)
-        ].copy()
-
         floors_gdf = gpd.GeoDataFrame(geometry=[areas_gdf.unary_union])
         floors_gdf["colors"] = [[0.0, 0.0, 0.0]]
         floors_gdf["category"] = ["floor"]
