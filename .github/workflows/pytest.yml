@@ -12,7 +12,10 @@ jobs:
     - uses: actions/setup-python@v2
       with:
         python-version: '3.8'
-    - name: Install package
+    - name: Install libspatialindex
+      run: |
+        sudo apt-get install -y libspatialindex-dev
+    - name: Install fml wright package
       run: |
         pip install --upgrade pip
         pip install .
