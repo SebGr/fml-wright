@@ -15,7 +15,7 @@ def test_parse_floorplan_txt_rectangle():
 
 def test_parse_floorplan_txt_no_rooms_gdf():
     """Test if a situation with no rooms is handled correctly."""
-    walls_file = "./tests/test_data/rectangle.txt"
+    walls_file = "./tests/test_data/walls.txt"
     walls_gdf, doors_gdf, rooms_gdf, special_gdf = data_sources.parse_floorplan_txt(
         walls_file
     )
