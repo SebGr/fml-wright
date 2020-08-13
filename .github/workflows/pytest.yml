@@ -9,9 +9,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Install package
+    - name: Install fml wright package
       run: |
-        python -m pip install --upgrade pip
+        conda env create -f environment.yml
+        conda activate fml-wright
         pip install .
     - name: Lint with flake8
       run: |
