@@ -1,0 +1,27 @@
+name: pytesting
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - name: Install fml wright package
+      run: |
+        sudo apt-get install -y libspatialindex-dev
+        pip install --upgrade pip
+        pip install .
+    - name: Lint with flake8
+      run: |
+        pip install flake8
+        flake8 --config=setup.cfg
+    - name: Test with pytest
+      run: |
+        pip install pytest pytest-cov
+        pytest --cov=fmlwright
