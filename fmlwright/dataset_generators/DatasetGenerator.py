@@ -133,4 +133,4 @@ class DatasetGenerator:
             columns={"index": "image_index"}
         )
         results["dataset_block"] = dataset_block_storage
-        results.to_csv(self.output_directory / f"images_index.csv", index=False)
+        results.to_csv(self.output_directory / "images_index.csv", index=False)
