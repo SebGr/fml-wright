@@ -4,7 +4,7 @@ import numpy as np
 
 def test_create_floorplan_gdf_rectangle():
     """Test if a single room is generated correctly."""
-    rectangle_file = "../../../test_data/rectangle.txt"
+    rectangle_file = "./tests/test_data/rectangle.txt"
     walls_gdf, doors_gdf, rooms_gdf, special_gdf = data_sources.parse_floorplan_txt(
         rectangle_file
     )
@@ -25,7 +25,7 @@ def test_create_floorplan_gdf_rectangle():
 
 def test_create_floorplan_gdf_different_double_room():
     """Test if a multi-purpose room with different room functions is generated correctly."""
-    rectangle_file = "../../../test_data/different_double_purpose_room.txt"
+    rectangle_file = "./tests/test_data/different_double_purpose_room.txt"
     walls_gdf, doors_gdf, rooms_gdf, special_gdf = data_sources.parse_floorplan_txt(
         rectangle_file
     )

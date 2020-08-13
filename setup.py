@@ -6,6 +6,7 @@ with open("README.md", "r") as fh:
 
 install_dependencies = [
     "pandas==1.0.3",
+    "rtree==0.9.4",
     "geopandas==0.7.0",
     "descartes==1.1.0",
     "tqdm==4.44",
@@ -15,7 +16,6 @@ install_dependencies = [
     "tensorflow-addons==0.10.0",
     "networkx==2.4",
     "pyyaml==5.3.1",
-    # "rtree==0.9.4",
     "joblib==0.16.0",
 ]
 
