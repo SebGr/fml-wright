@@ -15,7 +15,7 @@ log = logging.getLogger(__name__)
 
 def show_model_categories():
     """Show the possible model categories."""
-    log.info(f"The model categories are:")
+    log.info("The model categories are:")
     for _cat in labeling.MODEL_CATEGORIES:
         log.info(f"{_cat}")
     log.info(
