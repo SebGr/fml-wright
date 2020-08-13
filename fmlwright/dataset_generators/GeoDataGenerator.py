@@ -137,7 +137,7 @@ class GeoDataGenerator:
             )
         )
 
-        log.info(f"Combining the separate index files..")
+        log.info("Combining the separate index files..")
         index_floorplan = sorted(self.output_directory.glob("index_floorplans_*.csv"))
         log.info(f"Found {len(index_floorplan)} index block files.")
         index_files = pd.concat([pd.read_csv(_file) for _file in index_floorplan])

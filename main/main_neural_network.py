@@ -12,8 +12,6 @@ logging.basicConfig(
 )
 log = logging.getLogger(__name__)
 
-# tf.get_logger().setLevel("ERROR")
-
 
 def show_model_categories():
     """Show the possible model categories."""
@@ -21,7 +19,7 @@ def show_model_categories():
     for _cat in labeling.MODEL_CATEGORIES:
         log.info(f"{_cat}")
     log.info(
-        f"To create a model that predicts the inverse of a category, prepend the categeroy "
+        "To create a model that predicts the inverse of a category, prepend the categeroy "
         f'with  "no_", such as no_{labeling.MODEL_CATEGORIES[0]}.'
     )
 

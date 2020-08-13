@@ -168,7 +168,7 @@ class ImageBaseGenerator:
 
         self.irrelevant_index_columns = list(floorplans_gdf.columns)
 
-        log.info(f"Generating data blocks...")
+        log.info("Generating data blocks...")
         n_blocks = int(len(index_files) / dataset_size)
 
         data_file_blocks = split(index_files, n_blocks)
@@ -196,7 +196,7 @@ class ImageBaseGenerator:
             for subset_gdf, block_number in tqdm(zip(all_data, dataset_blocks_ids,))
         )
 
-        log.info(f"Combining the separate index files..")
+        log.info("Combining the separate index files..")
         index_floorplan = sorted(self.output_directory.glob("index_file_*.csv"))
         log.info(f"Found {len(index_floorplan)} index block files.")
         index_files = pd.concat([pd.read_csv(_file) for _file in index_floorplan])

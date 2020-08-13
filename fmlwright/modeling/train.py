@@ -33,7 +33,7 @@ def train(conf):
     else:
         Model = None
         log.error("Unknown model type has been selected.")
-        log.error(f"Your options are: BiCycleGAN, Pix2Pix.")
+        log.error("Your options are: BiCycleGAN, Pix2Pix.")
         log.error("Exiting...")
         exit()
 
