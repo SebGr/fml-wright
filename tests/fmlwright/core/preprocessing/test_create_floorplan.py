@@ -57,7 +57,7 @@ def test_create_floorplan_gdf_different_double_room():
 
 def test_create_floorplan_gdf_same_double_room():
     """Test if a multi-purpose room with the same room functions is generated correctly."""
-    rectangle_file = "../../../test_data/same_double_purpose_room.txt"
+    rectangle_file = "./tests/test_data/same_double_purpose_room.txt"
     walls_gdf, doors_gdf, rooms_gdf, special_gdf = data_sources.parse_floorplan_txt(
         rectangle_file
     )
