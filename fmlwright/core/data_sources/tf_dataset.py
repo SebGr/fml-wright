@@ -114,14 +114,24 @@ def _parse_image_function(example_proto, feature):
     return tf.io.parse_single_example(example_proto, feature)
 
 
-def load_dataset(dataset_location, index_location, category, dataset_size=1500):
+def _filter_predicate(example, idx_to_keep):
+    broadcast_equal = tf.equal(example["index"], idx_to_keep)
+    broadcast_equal_int = tf.cast(broadcast_equal, tf.int8)
+    count_present = tf.reduce_sum(broadcast_equal_int)
+    return count_present > 0
+
+
+def load_dataset(
+    dataset_location, index_location, category, sample_size=1000, sample=True
+):
     """Load the dataset.
 
     Args:
-        dataset_location (str): Folder where the dataset is.
+        dataset_location (list): Folder where the dataset is.
         index_location (str): file location of index files.
         category (str): Category to keep.
-        dataset_size (int): Sample size of dataset to use.
+        sample_size (int): Sample size of dataset to use.
+        sample (bool): Whether to sample a subset of the dataset.
 
     Returns:
         tf.dataset with examples.
@@ -132,11 +142,12 @@ def load_dataset(dataset_location, index_location, category, dataset_size=1500):
     log.info(f"Index file has {index_file.shape[0]} rows.")
     index_subset = create_index_subset(index_file, category)
     log.info(f"Index subset has {index_subset.shape[0]} rows.")
-    if index_subset.shape[0] > dataset_size:
-        index_subset = index_subset.sample(dataset_size)
-    log.info(
-        f"Sampling a maximum of {dataset_size} examples; left with {index_subset.shape[0]} samples."
-    )
+    if (index_subset.shape[0] > sample_size) & sample:
+        index_subset = index_subset.sample(sample_size)
+        log.info(
+            f"Sampling a maximum of {sample_size} examples; "
+            f"left with {index_subset.shape[0]} samples. "
+        )
 
     feature = {
         "index": tf.io.FixedLenFeature([], tf.int64),
@@ -144,19 +155,8 @@ def load_dataset(dataset_location, index_location, category, dataset_size=1500):
         "image_B_raw": tf.io.FixedLenFeature([], tf.string),
     }
 
-    idx_to_keep = index_subset["index"].values
-
-    parsed_images_A = []
-    parsed_images_B = []
-    for example in dataset:
-        tf_example = _parse_image_function(example, feature)
-        if tf_example["index"].numpy() in idx_to_keep:
-            image_A, image_B = decode_and_normalize(tf_example)
-            parsed_images_A.append(image_A)
-            parsed_images_B.append(image_B)
-
-    log.info(f"Dataset created with {len(parsed_images_A)} samples.")
-    parsed_dataset = tf.data.Dataset.from_tensor_slices(
-        (parsed_images_A, parsed_images_B)
-    )
-    return parsed_dataset
+    idx_to_keep = tf.convert_to_tensor(index_subset["index"].values, dtype=tf.int64)
+    dataset = dataset.map(lambda _example: _parse_image_function(_example, feature))
+    dataset = dataset.filter(lambda _example: _filter_predicate(_example, idx_to_keep))
+    dataset = dataset.map(decode_and_normalize)
+    return dataset
