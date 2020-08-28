@@ -3,5 +3,6 @@ dependencies:
   - python=3.8
   - jupyter=1.0.0
   - pip=20.1
+  - libspatialindex=1.9.3
   - pip:
       - pre-commit
