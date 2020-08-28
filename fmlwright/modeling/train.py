@@ -33,7 +33,7 @@ def train(conf):
     else:
         Model = None
         log.error("Unknown model type has been selected.")
-        log.error(f"Your options are: BiCycleGAN, Pix2Pix.")
+        log.error("Your options are: BiCycleGAN, Pix2Pix.")
         log.error("Exiting...")
         exit()
 
@@ -45,7 +45,8 @@ def train(conf):
         dataset_location=dataset_files,
         index_location=index_location,
         category=conf["settings"]["category"],
-        dataset_size=conf["settings"]["dataset_size"],
+        sample_size=conf["settings"]["dataset_size"],
+        sample=conf["settings"]["sample"],
     )
 
     train_dataset = train_dataset.shuffle(conf["settings"]["buffer_size"]).batch(

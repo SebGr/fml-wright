@@ -5,6 +5,7 @@ settings:
   category: 'living_room'
   batch_size: 1
   buffer_size: 256
+  sample: True
   dataset_size: 500 # limit dataset size due to memory constraints
   max_epochs: 100
   save_model_per_n_epochs: 1
@@ -27,6 +28,7 @@ stabilization:
 nn_structure:
   input_shape: (256, 256, 3)
   latent_vector: 8
+  first_layer_filter_size: 64
 
   generator:
     model_type: 'BiCycleGAN'

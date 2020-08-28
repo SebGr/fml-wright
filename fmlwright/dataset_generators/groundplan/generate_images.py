@@ -239,7 +239,7 @@ def generate_images(INPUT_DIRECTORY, OUTPUT_DIRECTORY, IMG_QUALITY):
             continue
 
     results = pd.DataFrame(filepaths)
-    results.to_csv(OUTPUT_DIRECTORY / f"index_file.csv", index=False)
+    results.to_csv(OUTPUT_DIRECTORY / "index_file.csv", index=False)
 
 
 if __name__ == "__main__":

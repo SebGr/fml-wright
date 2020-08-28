@@ -20,7 +20,7 @@ def parse_floorplan_txt(file_path):
     """Parse a single floorplan text.
 
     Args:
-        file_path (str): file location.
+        file_path (Path): file location.
 
     Returns:
         Geodataframe with the txt information processed.
@@ -43,9 +43,11 @@ def parse_floorplan_txt(file_path):
     ]
 
     polygons_df = df.loc[~df["category"].isin(LINE_LABELS)].copy()
-    polygons_df["geometry"] = polygons_df.apply(_create_rectangle, axis=1)
-
-    result_gdf = gpd.GeoDataFrame(pd.concat([lines_df, polygons_df], axis=0))
+    if not polygons_df.empty:
+        polygons_df["geometry"] = polygons_df.apply(_create_rectangle, axis=1)
+        result_gdf = gpd.GeoDataFrame(pd.concat([lines_df, polygons_df], axis=0))
+    else:
+        result_gdf = df.copy()
 
     walls_gdf = result_gdf.loc[result_gdf["category"] == "wall"].copy()
     doors_gdf = result_gdf.loc[result_gdf["category"] == "door"].copy()

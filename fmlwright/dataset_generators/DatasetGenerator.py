@@ -1,4 +1,5 @@
 from pathlib import Path
+import logging
 
 import cv2
 import pandas as pd
@@ -7,6 +8,8 @@ from tqdm import tqdm
 
 from fmlwright.core import preprocessing
 from fmlwright.core.data_sources import _bytes_feature, _int64_feature
+
+log = logging.getLogger(__name__)
 
 
 class DatasetGenerator:
@@ -120,9 +123,8 @@ class DatasetGenerator:
                     dataset = []
 
             except Exception as e:
-                print("-" * 50)
-                print(f"something went wrong: {row}")
-                print(e)
+                log.error(f"\nSomething went wrong: {row}")
+                log.error(f"\n{e}")
                 continue
 
         self.save_block(dataset_block=dataset_block, dataset=dataset)
@@ -131,4 +133,4 @@ class DatasetGenerator:
             columns={"index": "image_index"}
         )
         results["dataset_block"] = dataset_block_storage
-        results.to_csv(self.output_directory / f"images_index.csv", index=False)
+        results.to_csv(self.output_directory / "images_index.csv", index=False)
