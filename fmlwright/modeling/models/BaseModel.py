@@ -69,8 +69,8 @@ class BaseModel:
         self.add_noise_disc_input = False
         self.n_noise_disc_input = 0
 
-        self.PatchLabelMaker = PatchGanLabels(self.label_type)
-        self.LrOptScheduler = LrScheduler(
+        self.patch_label_maker = PatchGanLabels(self.label_type)
+        self.lr_optimizer_scheduler = LrScheduler(
             lr_decay_method=self.lr_decay_method,
             max_n_steps=self.max_n_steps,
             decay_steps_start=self.decay_steps_start,
@@ -117,7 +117,7 @@ class BaseModel:
         """
         disc_patch = [self.batch_size, self.patch_size, self.patch_size, 1]
 
-        label = self.PatchLabelMaker.create_labels(disc_patch, true_label)
+        label = self.patch_label_maker.create_labels(disc_patch, true_label)
         return label
 
     def _assert_validity_batch(self, batch):
@@ -130,15 +130,15 @@ class BaseModel:
     def update_learning_rate(self):
         """Update the learning rate for the models."""
         if self.ttur:
-            self.LrOptScheduler.update_learning_rate(
+            self.lr_optimizer_scheduler.update_learning_rate(
                 step=self.steps, lr=self.g_lr, optimizers=self.generator_optimizers
             )
 
-            self.LrOptScheduler.update_learning_rate(
+            self.lr_optimizer_scheduler.update_learning_rate(
                 step=self.steps, lr=self.d_lr, optimizers=self.disc_optimizers
             )
         else:
-            self.LrOptScheduler.update_learning_rate(
+            self.lr_optimizer_scheduler.update_learning_rate(
                 step=self.steps,
                 lr=self.lr,
                 optimizers=self.disc_optimizers + self.generator_optimizers,
@@ -178,7 +178,8 @@ class BaseModel:
         self.steps = 0
         self.epoch = 0
         while self.steps <= self.max_n_steps:
-            self.epoch += 1
+            log.info(f"Currently at epoch {self.epoch}")
+
             disc_std = self.calculate_disc_noise()
 
             for i, batch_data in tqdm(
@@ -200,6 +201,11 @@ class BaseModel:
                         self.save_models(self.result_storage / "models", version=None)
                     else:
                         self.save_models(self.result_storage / "models", version=self.steps)
+
+                if self.steps > self.max_n_steps:
+                    break
+
+            self.epoch += 1
 
         if store_only_last_model:
             self.save_models(self.result_storage / "models", version=None)
