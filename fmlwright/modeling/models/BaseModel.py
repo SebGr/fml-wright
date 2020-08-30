@@ -184,12 +184,9 @@ class BaseModel:
         log.info(f"Running for {n_epochs} epochs.")
 
         for epoch in tqdm(range(n_epochs)):
+            for batch_data in tqdm(train_dataset, total=batch_amount, leave=False):
+                disc_std = self.calculate_disc_noise()
 
-            disc_std = self.calculate_disc_noise()
-
-            for i, batch_data in tqdm(
-                enumerate(train_dataset), total=batch_amount, leave=False
-            ):
                 if self._assert_validity_batch(batch_data):
                     self.steps += 1
                     cur_step = tf.convert_to_tensor(self.steps, dtype=tf.int64)

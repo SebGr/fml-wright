@@ -16,7 +16,7 @@ settings:
 stabilization:
   discriminator_noise_input:
     add: True
-    max_n_steps: 50
+    max_n_steps: 25
   label_type: 'fixed'
   lr_decay:
     method: 'linear'
