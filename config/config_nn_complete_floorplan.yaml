@@ -5,23 +5,23 @@ settings:
   category: 'living_room'
   batch_size: 1
   buffer_size: 256
-  sample: True
+  sample: False
   dataset_size: 500 # limit dataset size due to memory constraints
-  max_n_steps: 100
-  save_example_per_n_steps: 10
-  save_model_per_n_steps: 50
+  max_n_steps: 100000
+  save_example_per_n_steps: 500
+  save_model_per_n_steps: 1000
   store_only_last_model: True
   lr: 0.0002
 
 stabilization:
   discriminator_noise_input:
     add: True
-    max_n_steps: 25
+    max_n_steps: 25000
   label_type: 'fixed'
   lr_decay:
     method: 'linear'
-    steps_start: 50
-    update_every_n_steps: 5
+    steps_start: 50000
+    update_every_n_steps: 500
   ttur:
     use: False
     g_lr: 0.0002
