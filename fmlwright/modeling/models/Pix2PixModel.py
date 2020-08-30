@@ -206,5 +206,5 @@ class Pix2Pix(BaseModel):
                 plt.axis("off")
 
             plt.tight_layout()
-            plt.savefig(str(self.image_storage / f"example_epoch_{self.epoch}"))
+            plt.savefig(str(self.image_storage / f"example_steps_{self.steps}"))
             plt.close()

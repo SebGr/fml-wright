@@ -8,47 +8,47 @@ log = logging.getLogger(__name__)
 class LrScheduler:
     """Custom LR scheduler for GANs."""
 
-    def __init__(self, lr_decay_method, max_epochs, decay_epoch_start):
+    def __init__(self, lr_decay_method, max_n_steps, decay_steps_start):
         """Initialize the scheduler.
 
         Args:
             lr_decay_method: decay method to use.
-            max_epochs: maximum epochs to run.
-            decay_epoch_start: epoch to start with decay.
+            max_n_steps: maximum steps to run.
+            decay_steps_start: step on which to start with decay.
         """
         self.lr_decay_method = lr_decay_method
-        self.max_epochs = max_epochs
-        self.decay_epoch_start = decay_epoch_start
+        self.max_n_steps = max_n_steps
+        self.decay_steps_start = decay_steps_start
 
-    def _calculate_lr(self, epoch, lr):
+    def _calculate_lr(self, step, lr):
         """Since we cannot use fit, we have to update the learning rate manually.
 
         Args:
-            epoch (int): current epoch.
+            step (int): current epoch.
             lr (float): starting lr for a given model.
         """
-        if epoch > self.decay_epoch_start:
+        if step > self.decay_steps_start:
             if self.lr_decay_method == "linear":
-                current_lr = lr - (epoch - self.decay_epoch_start) * (
-                    lr / (self.max_epochs - self.decay_epoch_start)
+                current_lr = lr - (step - self.decay_steps_start) * (
+                    lr / (self.max_n_steps - self.decay_steps_start)
                 )
             elif self.lr_decay_method == "gradient":
-                current_lr = lr * 0.95 ** (epoch - self.decay_epoch_start)
+                current_lr = lr * 0.95 ** (step - self.decay_steps_start)
             else:
                 current_lr = lr
         else:
             current_lr = lr
         return current_lr
 
-    def update_learning_rate(self, epoch, lr, optimizers):
+    def update_learning_rate(self, step, lr, optimizers):
         """Since we cannot use fit, we have to update the learning rate manually.
 
         Args:
-            epoch (int): current epoch.
+            step (int): current step.
             lr: current learning rate
             optimizers: list of optimizers to change
         """
-        cur_lr = self._calculate_lr(epoch, lr)
+        cur_lr = self._calculate_lr(step, lr)
 
         for _optimizer in optimizers:
             K.set_value(_optimizer.learning_rate, cur_lr)
