@@ -20,7 +20,8 @@ def train(conf):
         Path(conf["settings"]["storage_location"])
         / conf["settings"]["category"]
         / conf["nn_structure"]["generator"]["model_type"]
-    )  # todo: fix this ugly hack
+    )
+    log.info(f"Storage directory has been updated to {conf['settings']['storage_location']}.")
 
     if conf["nn_structure"]["generator"]["model_type"] == "BiCycleGAN":
         log.info("BiCycleGAN model has been selected.")
@@ -56,7 +57,7 @@ def train(conf):
     data_sources.save_yaml(conf, str(Model.result_storage / "config.yaml"))
 
     Model.train(
-        max_epochs=conf["settings"]["max_epochs"],
+        max_n_steps=conf["settings"]["max_n_steps"],
         train_dataset=train_dataset,
         store_only_last_model=conf["settings"]["store_only_last_model"],
     )

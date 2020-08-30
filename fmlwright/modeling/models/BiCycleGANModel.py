@@ -45,7 +45,7 @@ class BiCycleGAN(BaseModel):
             "add"
         ]
         self.n_noise_disc_input = conf["stabilization"]["discriminator_noise_input"][
-            "n_epochs"
+            "max_n_steps"
         ]
 
         conf_generator = conf["nn_structure"]["generator"]
@@ -353,7 +353,7 @@ class BiCycleGAN(BaseModel):
 
         Args:
             models_directory (Path): Root directory of models.
-            version (int): version number. For these models it's the current epoch number.
+            version (int): version number. For these models it's the current step number.
         """
         models_directory.mkdir(parents=True, exist_ok=True)
         version = "_" + str(version) if version else ""
@@ -403,5 +403,5 @@ class BiCycleGAN(BaseModel):
                 plt.axis("off")
 
             plt.tight_layout()
-            plt.savefig(str(self.image_storage / f"example_epoch_{self.epoch}"))
+            plt.savefig(str(self.image_storage / f"example_steps_{self.steps}"))
             plt.close()
