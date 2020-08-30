@@ -6,24 +6,26 @@ settings:
   batch_size: 1
   buffer_size: 256
   sample: True
-  dataset_size: 1000 # limit dataset size due to memory constraints
-  max_epochs: 100
-  save_model_per_n_epochs: 1
+  dataset_size: 500 # limit dataset size due to memory constraints
+  max_n_steps: 100
+  save_example_per_n_steps: 10
+  save_model_per_n_steps: 50
   store_only_last_model: True
   lr: 0.0002
 
 stabilization:
   discriminator_noise_input:
     add: True
-    n_epochs: 50
+    max_n_steps: 50
   label_type: 'fixed'
   lr_decay:
     method: 'linear'
-    epoch_start: 10
+    steps_start: 50
+    update_every_n_steps: 5
   ttur:
     use: False
-    g_lr: 0.001
-    d_lr: 0.004
+    g_lr: 0.0002
+    d_lr: 0.0005
 
 nn_structure:
   input_shape: (256, 256, 3)
