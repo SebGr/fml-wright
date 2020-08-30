@@ -19,7 +19,7 @@ class BaseModel:
         """Base model initialization.
 
         Args:
-            conf file (dict): loaded configuration file.
+            conf (dict): loaded configuration file.
         """
         self.input_shape = ast.literal_eval(conf["nn_structure"]["input_shape"])
         self.batch_size = conf["settings"]["batch_size"]
@@ -60,7 +60,9 @@ class BaseModel:
         )
 
         self.ttur = conf["stabilization"]["ttur"]["use"]
-        self.update_lr_every_n_steps = conf["stabilization"]["lr_decay"]["update_every_n_steps"]
+        self.update_lr_every_n_steps = conf["stabilization"]["lr_decay"][
+            "update_every_n_steps"
+        ]
 
         self.num_D = 1
         self.patch_size = 30
@@ -177,8 +179,11 @@ class BaseModel:
         self.max_n_steps = max_n_steps + 1
         self.steps = 0
         self.epoch = 0
-        while self.steps <= self.max_n_steps:
-            log.info(f"Currently at epoch {self.epoch}")
+
+        n_epochs = int(np.ceil(max_n_steps / batch_amount))
+        log.info(f"Running for {n_epochs} epochs.")
+
+        for epoch in tqdm(range(n_epochs)):
 
             disc_std = self.calculate_disc_noise()
 
@@ -200,14 +205,18 @@ class BaseModel:
                     if store_only_last_model:
                         self.save_models(self.result_storage / "models", version=None)
                     else:
-                        self.save_models(self.result_storage / "models", version=self.steps)
+                        self.save_models(
+                            self.result_storage / "models", version=self.steps
+                        )
 
                 if self.steps > self.max_n_steps:
                     break
 
-            self.epoch += 1
+            self.epoch = epoch
 
         if store_only_last_model:
             self.save_models(self.result_storage / "models", version=None)
         else:
             self.save_models(self.result_storage / "models", version=self.steps)
+
+        log.info("Finished training, shutting down...")
