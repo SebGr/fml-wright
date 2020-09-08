@@ -2,7 +2,7 @@ import logging
 from pathlib import Path
 
 from fmlwright.core import data_sources
-from fmlwright.modeling.models import BiCycleGAN, Pix2Pix
+from fmlwright.trainer.models import BiCycleGAN, Pix2Pix
 
 log = logging.getLogger(__name__)
 
@@ -21,7 +21,9 @@ def train(conf):
         / conf["settings"]["category"]
         / conf["nn_structure"]["generator"]["model_type"]
     )
-    log.info(f"Storage directory has been updated to {conf['settings']['storage_location']}.")
+    log.info(
+        f"Storage directory has been updated to {conf['settings']['storage_location']}."
+    )
 
     if conf["nn_structure"]["generator"]["model_type"] == "BiCycleGAN":
         log.info("BiCycleGAN model has been selected.")

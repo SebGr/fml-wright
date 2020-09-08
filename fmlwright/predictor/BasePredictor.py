@@ -4,9 +4,9 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
+from tensorflow.keras.models import load_model
 
 from fmlwright.core import data_sources, preprocessing
-from tensorflow.keras.models import load_model
 
 log = logging.getLogger(__name__)
 
@@ -120,3 +120,11 @@ class BasePredictor:
             plt.axis("off")
         plt.tight_layout()
         return fig, axes
+
+    def predict(self):
+        """Predict for an input image."""
+        raise NotImplementedError
+
+    def postprocess_predictions(self):
+        """Postprocess predictions."""
+        raise NotImplementedError

@@ -7,7 +7,7 @@ My extension on his work is that where he used `Pix2Pix`, a one-to-one mapping m
 
 The core idea of this project is to dynamically create floorplans using generative adversial
  networks (GAN). The networks generate floorplans examples based on input by a user. The user
-  would be able to make adjustments and then move through various stages of floorplan design.  
+  would be able to make adjustments and then move through various stages of floorplan design.
 
 The dataset process is split into several steps:
 * `dataset_generators.generate_geodataframe_file` creates geodataframe from the txt files dataset.
@@ -49,16 +49,16 @@ The original idea was to use as much `Keras` as possible, however I ran into iss
 
 ## Examples
 #### Color legend
-Below are the input colors and their meanings.  
+Below are the input colors and their meanings.
 ![alt text](./readme_images/color_legend_input.png "Input color per category.")
 
-These are the output colors and their meanings:  
+These are the output colors and their meanings:
 ![alt text](./readme_images/color_legend_output.png "Output color per category.")
 
 ###  Singlestep generation
 This model generates the entire floorplan in a single step, creating both the rooms and walls at
- the same time.  
- 
+ the same time.
+
  In the example below, the top left image is the input of the GAN, and the other five floorplans
   are generated examples.
 ![alt text](./readme_images/singlestep_generator_example.png "Generator example")
@@ -131,7 +131,7 @@ fmlwright
 │   ├── preprocessing
 │   └── utils
 ├── dataset_generators
-└── modeling
+└── trainer
     ├── models
     ├── neural_networks
     ├── predictor

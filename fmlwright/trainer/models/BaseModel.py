@@ -7,7 +7,7 @@ import numpy as np
 import tensorflow as tf
 from tqdm import tqdm
 
-from fmlwright.modeling.utils import PatchGanLabels, LrScheduler
+from fmlwright.trainer.utils import PatchGanLabels, LrScheduler
 
 log = logging.getLogger(__name__)
 

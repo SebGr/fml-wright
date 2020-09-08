@@ -1,14 +1,15 @@
 import logging
 
 import numpy as np
-from fmlwright.core import utils, postprocessing
-from fmlwright.modeling.predictor import BasePredictor
+
+from fmlwright.predictor.BasePredictor import BasePredictor
+from fmlwright.core import utils
 
 log = logging.getLogger(__name__)
 
 
-class SingleStepPredictor(BasePredictor):
-    """Predictor class for the BiCycleGAN models."""
+class BaseBiCycleGAN(BasePredictor):
+    """Base predictor class."""
 
     def __init__(self, model_location, categories, conf_location, latent_vector=8):
         """Initialize the predictor with a model.
@@ -61,20 +62,5 @@ class SingleStepPredictor(BasePredictor):
         return predictions
 
     def postprocess_predictions(self, predictions, input_img):
-        """Postprocess predictions.
-
-        This first does voronoi and then straightening on the floorplan_geodataframe. Finally it
-        simplifies the final gdf with the set tolerance.
-
-        Args:
-            predictions (dictionary): Dictionary with predictions.
-            input_img (np.array): Input image
-
-        Returns:
-            Dictionary with processed predictions.
-        """
-        processed_results = {}
-        for key, _pred in predictions.items():
-            cleaned_gdf = postprocessing.postprocess_prediction_to_gdf(input_img, _pred)
-            processed_results[key] = cleaned_gdf
-        return processed_results
+        """Postprocess prediction."""
+        raise NotImplementedError

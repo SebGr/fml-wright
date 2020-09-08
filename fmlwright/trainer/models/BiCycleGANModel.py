@@ -11,8 +11,8 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.optimizers import Adam
 
 from fmlwright.core.utils import create_z_random
-from fmlwright.modeling.models import BaseModel
-from fmlwright.modeling.neural_networks.networks import (
+from fmlwright.trainer.models import BaseModel
+from fmlwright.trainer.neural_networks.networks import (
     create_discriminator,
     create_generator,
     create_encoder,
@@ -28,7 +28,7 @@ class BiCycleGAN(BaseModel):
         """Initialize the BiCycleGAN.
 
         Args:
-            conf file (dict): loaded configuration file.
+            conf (dict): loaded configuration file.
         """
         super().__init__(conf)
         self.latent_vector = conf["nn_structure"]["latent_vector"]

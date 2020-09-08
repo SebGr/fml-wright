@@ -4,7 +4,7 @@ import os
 
 import tensorflow as tf
 
-from fmlwright import modeling
+from fmlwright import trainer
 from fmlwright.core import labeling, data_sources
 
 logging.basicConfig(
@@ -44,7 +44,7 @@ def main(args):
         log.info(f"Updating with new category: {args.category}")
         conf_options["settings"]["category"] = args.category
 
-    modeling.train(conf_options)
+    trainer.train(conf_options)
 
 
 if __name__ == "__main__":

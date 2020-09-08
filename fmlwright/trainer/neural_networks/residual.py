@@ -9,7 +9,7 @@ from tensorflow.keras.layers import (
 )
 from tensorflow.keras.models import Model
 
-from fmlwright.modeling.neural_networks import ResidualBlock
+from fmlwright.trainer.neural_networks import ResidualBlock
 
 
 def create_residual_network(

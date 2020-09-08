@@ -1,8 +1,8 @@
 import logging
 
-from fmlwright.modeling.neural_networks.patchgan import create_patchgan
-from fmlwright.modeling.neural_networks.residual import create_residual_network
-from fmlwright.modeling.neural_networks.unet import create_unet
+from fmlwright.trainer.neural_networks.patchgan import create_patchgan
+from fmlwright.trainer.neural_networks.residual import create_residual_network
+from fmlwright.trainer.neural_networks.unet import create_unet
 
 log = logging.getLogger(__name__)
 

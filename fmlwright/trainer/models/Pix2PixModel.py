@@ -10,8 +10,8 @@ from tensorflow.keras.losses import (
 from tensorflow.keras.models import load_model
 from tensorflow.keras.optimizers import Adam
 
-from fmlwright.modeling.models.BaseModel import BaseModel
-from fmlwright.modeling.neural_networks.networks import (
+from fmlwright.trainer.models.BaseModel import BaseModel
+from fmlwright.trainer.neural_networks.networks import (
     create_discriminator,
     create_generator,
 )
@@ -26,7 +26,7 @@ class Pix2Pix(BaseModel):
         """Initialize the Pix2Pix model.
 
         Args:
-            conf file (dict): loaded configuration file.
+            conf (dict): loaded configuration file.
         """
         super().__init__(conf)
 

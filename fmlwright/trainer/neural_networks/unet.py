@@ -5,7 +5,7 @@ from tensorflow.keras.layers import Conv2DTranspose
 from tensorflow.keras.layers import Input, concatenate
 from tensorflow.keras.models import Model
 
-from fmlwright.modeling.neural_networks import (
+from fmlwright.trainer.neural_networks import (
     DownConvBlock,
     UpConvBlock,
     LatentNoiseBlock,

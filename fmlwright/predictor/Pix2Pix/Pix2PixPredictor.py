@@ -2,7 +2,7 @@ import logging
 
 import numpy as np
 
-from fmlwright.modeling.predictor import BasePredictor
+from fmlwright.predictor.Pix2Pix import BasePredictor
 
 log = logging.getLogger(__name__)
 

@@ -1,4 +1,4 @@
-from fmlwright.modeling.neural_networks import PatchBlock
+from fmlwright.trainer.neural_networks import PatchBlock
 from tensorflow.keras.layers import Input, ZeroPadding2D, Conv2D
 from tensorflow.keras.models import Model
 
