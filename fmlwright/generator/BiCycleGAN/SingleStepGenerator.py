@@ -1,12 +1,12 @@
 import logging
 
 from fmlwright.core import postprocessing
-from fmlwright.predictor.BiCycleGAN import BaseBiCycleGAN
+from fmlwright.generator.BiCycleGAN import BaseBiCycleGAN
 
 log = logging.getLogger(__name__)
 
 
-class SingleStepPredictor(BaseBiCycleGAN):
+class SingleStepGenerator(BaseBiCycleGAN):
     """Predictor class for the BiCycleGAN models."""
 
     def postprocess_predictions(self, predictions, input_img):

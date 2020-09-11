@@ -44,7 +44,7 @@ def main(args):
         log.info(f"Updating with new category: {args.category}")
         conf_options["settings"]["category"] = args.category
 
-    trainer.train(conf_options)
+    trainer.run(conf_options)
 
 
 if __name__ == "__main__":

@@ -1,49 +1,34 @@
-import ast
 import logging
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
 from tensorflow.keras.models import load_model
+from tensorflow_addons.layers import InstanceNormalization
 
 from fmlwright.core import data_sources, preprocessing
 
 log = logging.getLogger(__name__)
 
 
-class BasePredictor:
-    """Base predictor class."""
+class BaseGenerator:
+    """Base generator class."""
 
-    def __init__(self, model_location, categories, conf_location):
-        """Initialize the predictor with a model.
+    def __init__(self, model_location, categories, input_shape):
+        """Initialize the generator with a model.
 
         Args:
             model_location (str): path to the root directory for the models.
             categories (list): List of categories.
-            conf_location (str): path to config location.
+            input_shape (tuple): input shape of the images.
         """
         self._model = {}
 
         self.model_type = None
 
-        self.conf = None
-        self.input_shape = None
+        self.input_shape = input_shape
         self.model_location = Path(model_location)
-        self.conf_location = Path(conf_location)
         self.categories = categories
-
-    def load_configuration(self, conf_location=None):
-        """Load configuration file.
-
-        If conf_location is none, it will use the one set in init.
-
-        Args:
-            conf_location (str): path to config location.
-        """
-        self.conf = data_sources.load_yaml(
-            conf_location if conf_location else self.conf_location
-        )
-        self.input_shape = ast.literal_eval(self.conf["nn_structure"]["input_shape"])
 
     def load_model(self, model_location=None):
         """Load the generator model.
@@ -57,13 +42,12 @@ class BasePredictor:
         """
         model_location = model_location if model_location else self.model_location
 
-        if not self.conf:
-            self.load_configuration()
-
         for _cat in self.categories:
             log.info(f"Loading model for category: {_cat}.")
             self._model[_cat] = load_model(
-                model_location / _cat / "generator.h5", compile=False
+                model_location / _cat / "generator.h5",
+                compile=False,
+                custom_objects={"Addons>InstanceNormalization": InstanceNormalization},
             )
 
     def preprocess_image(self, img):

@@ -2,30 +2,26 @@ import logging
 
 import numpy as np
 
-from fmlwright.predictor.BasePredictor import BasePredictor
+from fmlwright.generator.BaseGenerator import BaseGenerator
 from fmlwright.core import utils
 
 log = logging.getLogger(__name__)
 
 
-class BaseBiCycleGAN(BasePredictor):
-    """Base predictor class."""
+class BaseBiCycleGAN(BaseGenerator):
+    """Base generator class."""
 
-    def __init__(self, model_location, categories, conf_location, latent_vector=8):
-        """Initialize the predictor with a model.
+    def __init__(self, model_location, categories, input_shape, latent_vector=8):
+        """Initialize the generator with a model.
 
         Args:
             model_location (str): path to the root directory for the models.
             categories (list): List of categories.
-            conf_location (str): path to config location.
+            input_shape (tuple): input shape of the images.
             latent_vector (int): Latent dimension value.
         """
-        super().__init__(model_location, categories, conf_location)
-        self.model_type = "BiCycleGAN"
+        super().__init__(model_location, categories, input_shape)
         self.latent_vector = latent_vector
-
-        self.load_configuration()
-        self.load_model()
 
     def predict(self, img, n_samples, z_random=None, categories=None):
         """Create a prediction for the generator model.

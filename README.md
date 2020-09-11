@@ -134,8 +134,8 @@ fmlwright
 └── trainer
     ├── models
     ├── neural_networks
-    ├── predictor
-    └── train.py
+    ├── generator
+    └── run.py
 ```
 The `fmlwright` package is split in three modules: `core`, `dataset_generators` and `modeling`.
 * `core` contains general functions needed to do perform things such as data ingestion

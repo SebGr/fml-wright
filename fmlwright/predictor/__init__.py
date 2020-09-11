@@ -1,3 +1,0 @@
-from fmlwright.predictor.BiCycleGAN.BiCycleGANPredictor import BiCycleGANPredictor
-from fmlwright.predictor.BiCycleGAN.SingleStepPredictor import SingleStepPredictor
-from fmlwright.predictor.Pix2Pix.Pix2PixPredictor import Pix2PixPredictor

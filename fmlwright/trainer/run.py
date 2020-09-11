@@ -7,7 +7,7 @@ from fmlwright.trainer.models import BiCycleGAN, Pix2Pix
 log = logging.getLogger(__name__)
 
 
-def train(conf):
+def run(conf):
     """Function to create, compile and train the neural network.
 
     Args:

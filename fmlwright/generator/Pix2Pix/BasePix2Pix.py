@@ -2,27 +2,13 @@ import logging
 
 import numpy as np
 
-from fmlwright.predictor.BasePredictor import BasePredictor
+from fmlwright.generator.BaseGenerator import BaseGenerator
 
 log = logging.getLogger(__name__)
 
 
-class BasePix2Pix(BasePredictor):
+class BasePix2Pix(BaseGenerator):
     """Predictor class for the Pix2Pix models."""
-
-    def __init__(self, model_location, categories, conf_location):
-        """Initialize the predictor with a model.
-
-        Args:
-            model_location (str): path to the root directory for the models.
-            categories (list): List of categories.
-            conf_location (str): path to config location.
-        """
-        super().__init__(model_location, categories, conf_location)
-        self.model_type = "Pix2Pix"
-
-        self.load_configuration()
-        self.load_model()
 
     def predict(self, img, n_samples, categories=None):
         """Create a prediction for the generator model.
