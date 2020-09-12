@@ -128,6 +128,7 @@ class GeoDataGenerator:
             data_file_blocks = data_file_blocks[starting_block:]
             dataset_blocks_ids = dataset_blocks_ids[starting_block:]
             log.info(f"Starting at a different block number: {starting_block}.")
+            n_blocks = int(len(data_file_blocks))
 
         log.info(f"Going through {n_blocks} blocks in parallel.")
         Parallel(n_jobs=n_jobs)(

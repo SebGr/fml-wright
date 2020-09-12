@@ -29,12 +29,9 @@ def run_module_structure_plan(args):
         args (argparse): Arguments added to the python script through argparse.
     """
     step = args.step
-    img_quality = 70
     if step == "generate_images":
         StructureGenerator = dataset_builder.ImageStructureGenerator(
-            input_directory=args.input_directory,
-            output_directory=args.output_directory,
-            img_quality=img_quality,
+            input_directory=args.input_directory, output_directory=args.output_directory
         )
         StructureGenerator.run(n_jobs=args.n_jobs, starting_block=args.starting_block)
     elif step == "generate_dataset":
@@ -51,12 +48,9 @@ def run_module_floor_plan(args):
         args (argparse): Arguments added to the python script through argparse.
     """
     step = args.step
-    img_quality = 70
     if step == "generate_images":
         FloorplanGenerator = dataset_builder.ImageFloorplanGenerator(
-            input_directory=args.input_directory,
-            output_directory=args.output_directory,
-            img_quality=img_quality,
+            input_directory=args.input_directory, output_directory=args.output_directory
         )
         FloorplanGenerator.run(n_jobs=args.n_jobs, starting_block=args.starting_block)
     elif step == "generate_dataset":
@@ -73,12 +67,9 @@ def run_module_complete_floorplan(args):
         args (argparse): Arguments added to the python script through argparse.
     """
     step = args.step
-    img_quality = 70
     if step == "generate_images":
         FloorplanGenerator = dataset_builder.ImageSingleStepGenerator(
-            input_directory=args.input_directory,
-            output_directory=args.output_directory,
-            img_quality=img_quality,
+            input_directory=args.input_directory, output_directory=args.output_directory
         )
         FloorplanGenerator.run(n_jobs=args.n_jobs, starting_block=args.starting_block)
     elif step == "generate_dataset":

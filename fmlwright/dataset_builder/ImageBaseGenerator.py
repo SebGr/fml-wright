@@ -22,7 +22,7 @@ def split(a, n):
 class ImageBaseGenerator:
     """Baseclass to create images from geodata."""
 
-    def __init__(self, input_directory, output_directory, img_quality):
+    def __init__(self, input_directory, output_directory):
         """Initialize the base class for image generation.
 
         Args:
@@ -32,7 +32,6 @@ class ImageBaseGenerator:
         """
         self.input_directory = Path(input_directory)
         self.output_directory = Path(output_directory)
-        self.img_quality = img_quality
 
         self.output_directory.mkdir(parents=True, exist_ok=False)
         (self.output_directory / "input").mkdir(parents=True, exist_ok=True)
@@ -86,11 +85,11 @@ class ImageBaseGenerator:
 
             input_gdf = self.create_input_gdf(relevant_floorplan_gdf)
             filename_input = self.output_directory / "input" / f"{i}.png"
-            data_sources.save_image_gdf(input_gdf, filename_input, self.img_quality)
+            data_sources.save_image_gdf(input_gdf, filename_input)
 
             output_gdf = self.create_output_gdf(relevant_floorplan_gdf)
             filename_output = self.output_directory / "output" / f"{i}.png"
-            data_sources.save_image_gdf(output_gdf, filename_output, self.img_quality)
+            data_sources.save_image_gdf(output_gdf, filename_output)
             n_floorplan_usages = list(
                 relevant_index_df.to_dict(orient="index").values()
             )[0]
