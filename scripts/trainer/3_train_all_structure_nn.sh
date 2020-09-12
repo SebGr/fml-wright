@@ -1,7 +1,7 @@
 # run from root directory
-# bash scripts/8_train_all_structure_nn.sh
+# bash scripts/trainer/3_train_all_structure_nn.sh
 
-config='./config/config_nn_structure_plan.yaml'
+config='./config/trainer/config_nn_structure_plan.yaml'
 
 CATEGORIES=(
     "single_bedroom"
@@ -19,7 +19,7 @@ CATEGORIES=(
     )
 
 for _cat in ${CATEGORIES[*]}; do
-    python ./main/main_neural_network.py \
+    python ./main/trainer.py \
     --config=$config \
     --category=$_cat
 done

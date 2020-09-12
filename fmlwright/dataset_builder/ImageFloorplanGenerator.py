@@ -3,7 +3,7 @@ import logging
 import pandas as pd
 
 from fmlwright.core import labeling
-from fmlwright.dataset_generators import ImageBaseGenerator
+from fmlwright.dataset_builder import ImageBaseGenerator
 
 log = logging.getLogger(__name__)
 

@@ -1,12 +1,12 @@
 # run from root directory
-# bash scripts/1_create_floorplan_images.sh
+# bash scripts/core/3_create_structure_images.sh
 
 input_directory='./data/geodata'
-output_directory='./data/images/floorplan'
-module='floor_plan'
+output_directory='./data/images/structure'
+module='structure_plan'
 step='generate_images'
 
-python ./main/main_core.py \
+python ./main/core.py \
   --module=$module \
   --step=$step \
   --input_directory=$input_directory \

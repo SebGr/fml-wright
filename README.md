@@ -10,14 +10,14 @@ The core idea of this project is to dynamically create floorplans using generati
   would be able to make adjustments and then move through various stages of floorplan design.
 
 The dataset process is split into several steps:
-* `dataset_generators.generate_geodataframe_file` creates geodataframe from the txt files dataset.
-* `dataset_generators.groundplan` module creates ground plan images.
-* `dataset_generators.ImageFloorplanGenerator` creates floor plan images.
-* `dataset_generators.ImageStructureGenerator` module creates structure images.
+* `dataset_builder.GeoDataGenerator` creates geodataframe from the txt files dataset.
+* `dataset_builder.groundplan` module creates ground plan images.
+* `dataset_builder.ImageFloorplanGenerator` creates floor plan images.
+* `dataset_builder.ImageStructureGenerator` module creates structure images.
 
 `ImageFloorplanGenerator` and `ImageStructureGenerator` can also be done as a single step, this
  is done with the following generator:
-* `dataset_generators.ImageSingleStepGenerator`
+* `dataset_builder.ImageSingleStepGenerator`
 
 The modeling process is split several generation steps:
 * Ground plan
@@ -80,8 +80,8 @@ Main contains the entry points for dataset generation and model training.
 This script has the entry points to create the datasets required for the neural networks. The
  order is as follows:
 
- 1) Generate the geojson file using `generate_geodataframe_file`.
- 2) Generate images using generators such as `ImageFloorplanGenerator`.
+ 1) Generate the geojson file using `GeoDataGenerator`.
+ 2) Generate images using dataset builders such as `ImageFloorplanGenerator`.
  3) Combine and resize the generated images with `DatasetGenerator`.
 
 This will create a dataset with images for all possible categories. Selection of the data is done
@@ -96,7 +96,7 @@ This script starts the neural network trainer. The neural networks are based on 
  It is also possible to overwrite the config category using arguments. This can be done as follows:
 
  ```shell script
-python ./main/main_neural_network.py --config=./config/config_nn_floor_plan.yaml  --category=single_bedroom
+python ./main/trainer.py --config=./config/trainer/config_nn_floor_plan.yaml  --category=single_bedroom
 ```
 
 It will overwrite the category in the config file `config_nn_floor_plan` to use a `single_bedroom
@@ -107,7 +107,7 @@ In order to make the repository easy to use, bash scripts have been created. The
  names are hopefully fairly self explanatory. They can be used as followed:
 
 ```shell script
-bash scripts/5_train_floorplan_nn.sh
+bash scripts/trainer/0_train_floorplan_nn.sh
 ```
 This will start training a neural network to create floorplans for a category that is defined in
  the configuration file.
@@ -124,18 +124,20 @@ pip install -e .
 fmlwright
 ├── __init__.py
 ├── core
-│   ├── data_sources
-│   ├── labeling
-│   ├── metrics
-│   ├── postprocessing
-│   ├── preprocessing
-│   └── utils
-├── dataset_generators
-└── trainer
+    ├── data_sources
+    ├── labeling
+    ├── metrics
+    ├── postprocessing
+    ├── preprocessing
+    └── utils
+├── dataset_builder
+├── trainer
     ├── models
     ├── neural_networks
     ├── generator
     └── run.py
+└── generator
+
 ```
 The `fmlwright` package is split in three modules: `core`, `dataset_generators` and `modeling`.
 * `core` contains general functions needed to do perform things such as data ingestion

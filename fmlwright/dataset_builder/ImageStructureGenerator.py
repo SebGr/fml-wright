@@ -4,7 +4,7 @@ import geopandas as gpd
 import pandas as pd
 
 from fmlwright.core import preprocessing
-from fmlwright.dataset_generators import ImageBaseGenerator
+from fmlwright.dataset_builder import ImageBaseGenerator
 
 log = logging.getLogger(__name__)
 

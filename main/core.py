@@ -1,7 +1,7 @@
 import argparse
 import logging
 
-import fmlwright.dataset_generators as data_gen
+import fmlwright.dataset_builder as dataset_builder
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(module)s - %(message)s"
@@ -31,14 +31,14 @@ def run_module_structure_plan(args):
     step = args.step
     img_quality = 70
     if step == "generate_images":
-        StructureGenerator = data_gen.ImageStructureGenerator(
+        StructureGenerator = dataset_builder.ImageStructureGenerator(
             input_directory=args.input_directory,
             output_directory=args.output_directory,
             img_quality=img_quality,
         )
         StructureGenerator.run(n_jobs=args.n_jobs, starting_block=args.starting_block)
     elif step == "generate_dataset":
-        DatasetGenerator = data_gen.DatasetGenerator(
+        DatasetGenerator = dataset_builder.DatasetGenerator(
             input_directory=args.input_directory, output_directory=args.output_directory
         )
         DatasetGenerator.generate_dataset()
@@ -53,14 +53,14 @@ def run_module_floor_plan(args):
     step = args.step
     img_quality = 70
     if step == "generate_images":
-        FloorplanGenerator = data_gen.ImageFloorplanGenerator(
+        FloorplanGenerator = dataset_builder.ImageFloorplanGenerator(
             input_directory=args.input_directory,
             output_directory=args.output_directory,
             img_quality=img_quality,
         )
         FloorplanGenerator.run(n_jobs=args.n_jobs, starting_block=args.starting_block)
     elif step == "generate_dataset":
-        DatasetGenerator = data_gen.DatasetGenerator(
+        DatasetGenerator = dataset_builder.DatasetGenerator(
             input_directory=args.input_directory, output_directory=args.output_directory
         )
         DatasetGenerator.generate_dataset()
@@ -75,14 +75,14 @@ def run_module_complete_floorplan(args):
     step = args.step
     img_quality = 70
     if step == "generate_images":
-        FloorplanGenerator = data_gen.ImageSingleStepGenerator(
+        FloorplanGenerator = dataset_builder.ImageSingleStepGenerator(
             input_directory=args.input_directory,
             output_directory=args.output_directory,
             img_quality=img_quality,
         )
         FloorplanGenerator.run(n_jobs=args.n_jobs, starting_block=args.starting_block)
     elif step == "generate_dataset":
-        DatasetGenerator = data_gen.DatasetGenerator(
+        DatasetGenerator = dataset_builder.DatasetGenerator(
             input_directory=args.input_directory, output_directory=args.output_directory
         )
         DatasetGenerator.generate_dataset()
@@ -103,7 +103,7 @@ def run_module_text_to_gdf(args):
     Args:
         args (argparse): Arguments added to the python script through argparse.
     """
-    GeoGenerator = data_gen.GeoDataGenerator(
+    GeoGenerator = dataset_builder.GeoDataGenerator(
         input_directory=args.input_directory, output_directory=args.output_directory,
     )
     GeoGenerator.run(n_jobs=args.n_jobs, starting_block=args.starting_block)
@@ -118,8 +118,9 @@ def main(args):
     module = args.module
 
     if args.step not in STEP_OPTIONS:
-        print(f"{args.step} is an unknown option. Your options are {STEP_OPTIONS}")
-        exit()
+        raise ValueError(
+            f"{args.step} is an unknown option. Your options are {STEP_OPTIONS}."
+        )
 
     if module == "structure_plan":
         run_module_structure_plan(args)
@@ -132,8 +133,9 @@ def main(args):
     elif module == "text_to_gdf":
         run_module_text_to_gdf(args)
     else:
-        print(f"{module} is an unknown option. Your options are {MODULE_OPTIONS}.")
-        exit()
+        raise ValueError(
+            f"{module} is an unknown option. Your options are {MODULE_OPTIONS}."
+        )
 
 
 if __name__ == "__main__":

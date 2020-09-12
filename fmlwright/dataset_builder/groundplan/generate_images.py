@@ -3,9 +3,10 @@ from pathlib import Path
 import geopandas as gpd
 import matplotlib.pyplot as plt
 import pandas as pd
-from fmlwright.core import preprocessing
 from shapely import affinity
 from tqdm import tqdm
+
+from fmlwright.core import preprocessing
 
 PURPOSES_TO_KEEP = [
     "bijeenkomstfunctie",
