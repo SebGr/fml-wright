@@ -90,11 +90,12 @@ class BaseModel:
         """
         raise NotImplementedError
 
-    def create_example(self, batch):
-        """Create an example, required to be overwritten by GAN model.
+    def create_example(self, example, filename):
+        """Creates and stores four examples based on a random input image.
 
         Args:
-            batch (tf batch): tensorflow batch.
+            example (tf batch): tensorflow batch.
+            filename (str): File name.
         """
         raise NotImplementedError
 
@@ -183,6 +184,8 @@ class BaseModel:
         n_epochs = int(np.ceil(max_n_steps / batch_amount))
         log.info(f"Running for {n_epochs} epochs.")
 
+        example_image = train_dataset.take(1)
+
         for epoch in tqdm(range(n_epochs)):
             for batch_data in tqdm(train_dataset, total=batch_amount, leave=False):
                 disc_std = self.calculate_disc_noise()
@@ -196,7 +199,21 @@ class BaseModel:
                     self.update_learning_rate()
 
                 if np.floor(self.steps % self.save_example_per_n_steps) == 0:
-                    self.create_example(train_dataset.take(1))
+                    n_zeros_to_add = len(str(max_n_steps)) - len(str(self.steps))
+                    self.create_example(
+                        example_image,
+                        str(
+                            self.image_storage
+                            / f"_same_example_steps_{'0'*n_zeros_to_add}{self.steps}.jpg"
+                        ),
+                    )
+                    self.create_example(
+                        train_dataset.take(1),
+                        str(
+                            self.image_storage
+                            / f"example_steps_{'0'*n_zeros_to_add}{self.steps}.jpg"
+                        ),
+                    )
 
                 if np.floor(self.steps % self.save_model_per_n_steps) == 0:
                     if store_only_last_model:

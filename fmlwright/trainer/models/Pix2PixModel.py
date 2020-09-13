@@ -183,11 +183,12 @@ class Pix2Pix(BaseModel):
                 "model_info/D_lr", self.D_optimizer.learning_rate, step=current_step
             )
 
-    def create_example(self, example):
+    def create_example(self, example, filename):
         """Creates and stores four examples based on a random input image.
 
         Args:
             example (tf batch): tensorflow batch.
+            filename (str): File name.
         """
         for input_image, output_image in example:
             predicted_image = self.G.predict(input_image.numpy())
@@ -206,5 +207,5 @@ class Pix2Pix(BaseModel):
                 plt.axis("off")
 
             plt.tight_layout()
-            plt.savefig(str(self.image_storage / f"example_steps_{self.steps}"))
+            plt.savefig(filename)
             plt.close()

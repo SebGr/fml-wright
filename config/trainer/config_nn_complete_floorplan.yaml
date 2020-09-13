@@ -2,7 +2,7 @@ settings:
   use_gpu: True
   storage_location: './results/complete_floorplan' # Gets appended with category and model type.
   dataset_directory: './data/datasets/complete_floorplan'
-  category: 'living_room'
+  category: 'single_floor'
   batch_size: 1
   buffer_size: 256
   sample: False
