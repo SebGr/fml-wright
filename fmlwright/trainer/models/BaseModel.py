@@ -184,7 +184,7 @@ class BaseModel:
         n_epochs = int(np.ceil(max_n_steps / batch_amount))
         log.info(f"Running for {n_epochs} epochs.")
 
-        example_image = train_dataset.take(1)
+        example_image = train_dataset.take(1).cache()
 
         for epoch in tqdm(range(n_epochs)):
             for batch_data in tqdm(train_dataset, total=batch_amount, leave=False):
