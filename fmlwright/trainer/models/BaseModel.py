@@ -204,14 +204,14 @@ class BaseModel:
                         example_image,
                         str(
                             self.image_storage
-                            / f"_same_example_steps_{'0'*n_zeros_to_add}{self.steps}.jpg"
+                            / f"_same_example_steps_{'0'*n_zeros_to_add}{self.steps}"
                         ),
                     )
                     self.create_example(
                         train_dataset.take(1),
                         str(
                             self.image_storage
-                            / f"example_steps_{'0'*n_zeros_to_add}{self.steps}.jpg"
+                            / f"example_steps_{'0'*n_zeros_to_add}{self.steps}"
                         ),
                     )
 
