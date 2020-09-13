@@ -204,7 +204,7 @@ class BaseModel:
                         example_image,
                         str(
                             self.image_storage
-                            / f"_same_example_steps_{'0'*n_zeros_to_add}{self.steps}"
+                            / f"same_example_steps_{'0'*n_zeros_to_add}{self.steps}"
                         ),
                     )
                     self.create_example(
