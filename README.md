@@ -7,17 +7,17 @@ My extension on his work is that where he used `Pix2Pix`, a one-to-one mapping m
 
 The core idea of this project is to dynamically create floorplans using generative adversial
  networks (GAN). The networks generate floorplans examples based on input by a user. The user
-  would be able to make adjustments and then move through various stages of floorplan design.  
+  would be able to make adjustments and then move through various stages of floorplan design.
 
 The dataset process is split into several steps:
-* `dataset_generators.generate_geodataframe_file` creates geodataframe from the txt files dataset.
-* `dataset_generators.groundplan` module creates ground plan images.
-* `dataset_generators.ImageFloorplanGenerator` creates floor plan images.
-* `dataset_generators.ImageStructureGenerator` module creates structure images.
+* `dataset_builder.GeoDataGenerator` creates geodataframe from the txt files dataset.
+* `dataset_builder.groundplan` module creates ground plan images.
+* `dataset_builder.ImageFloorplanGenerator` creates floor plan images.
+* `dataset_builder.ImageStructureGenerator` module creates structure images.
 
 `ImageFloorplanGenerator` and `ImageStructureGenerator` can also be done as a single step, this
  is done with the following generator:
-* `dataset_generators.ImageSingleStepGenerator`
+* `dataset_builder.ImageSingleStepGenerator`
 
 The modeling process is split several generation steps:
 * Ground plan
@@ -49,16 +49,16 @@ The original idea was to use as much `Keras` as possible, however I ran into iss
 
 ## Examples
 #### Color legend
-Below are the input colors and their meanings.  
+Below are the input colors and their meanings.
 ![alt text](./readme_images/color_legend_input.png "Input color per category.")
 
-These are the output colors and their meanings:  
+These are the output colors and their meanings:
 ![alt text](./readme_images/color_legend_output.png "Output color per category.")
 
 ###  Singlestep generation
 This model generates the entire floorplan in a single step, creating both the rooms and walls at
- the same time.  
- 
+ the same time.
+
  In the example below, the top left image is the input of the GAN, and the other five floorplans
   are generated examples.
 ![alt text](./readme_images/singlestep_generator_example.png "Generator example")
@@ -80,8 +80,8 @@ Main contains the entry points for dataset generation and model training.
 This script has the entry points to create the datasets required for the neural networks. The
  order is as follows:
 
- 1) Generate the geojson file using `generate_geodataframe_file`.
- 2) Generate images using generators such as `ImageFloorplanGenerator`.
+ 1) Generate the geojson file using `GeoDataGenerator`.
+ 2) Generate images using dataset builders such as `ImageFloorplanGenerator`.
  3) Combine and resize the generated images with `DatasetGenerator`.
 
 This will create a dataset with images for all possible categories. Selection of the data is done
@@ -96,7 +96,7 @@ This script starts the neural network trainer. The neural networks are based on 
  It is also possible to overwrite the config category using arguments. This can be done as follows:
 
  ```shell script
-python ./main/main_neural_network.py --config=./config/config_nn_floor_plan.yaml  --category=single_bedroom
+python ./main/trainer.py --config=./config/trainer/config_nn_floor_plan.yaml  --category=single_bedroom
 ```
 
 It will overwrite the category in the config file `config_nn_floor_plan` to use a `single_bedroom
@@ -107,7 +107,7 @@ In order to make the repository easy to use, bash scripts have been created. The
  names are hopefully fairly self explanatory. They can be used as followed:
 
 ```shell script
-bash scripts/5_train_floorplan_nn.sh
+bash scripts/trainer/0_train_floorplan_nn.sh
 ```
 This will start training a neural network to create floorplans for a category that is defined in
  the configuration file.
@@ -124,18 +124,20 @@ pip install -e .
 fmlwright
 ├── __init__.py
 ├── core
-│   ├── data_sources
-│   ├── labeling
-│   ├── metrics
-│   ├── postprocessing
-│   ├── preprocessing
-│   └── utils
-├── dataset_generators
-└── modeling
+    ├── data_sources
+    ├── labeling
+    ├── metrics
+    ├── postprocessing
+    ├── preprocessing
+    └── utils
+├── dataset_builder
+├── trainer
     ├── models
     ├── neural_networks
-    ├── predictor
-    └── train.py
+    ├── generator
+    └── run.py
+└── generator
+
 ```
 The `fmlwright` package is split in three modules: `core`, `dataset_generators` and `modeling`.
 * `core` contains general functions needed to do perform things such as data ingestion

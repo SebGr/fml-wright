@@ -1,0 +1,7 @@
+settings:
+  models_directory: '/home/sebastiaan/Projects/fml-wright-project/generator_models/models/bicyclegan/complete_floorplan/'
+  categories: [
+      'living_room'
+  ]
+  input_shape: (256, 256, 3)
+  latent_vector: 8
