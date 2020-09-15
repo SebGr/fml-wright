@@ -1,0 +1,3 @@
+from fmlwright.generator.BiCycleGAN.BiCycleGANGenerator import BiCycleGANGenerator
+from fmlwright.generator.BiCycleGAN.SingleStepGenerator import SingleStepGenerator
+from fmlwright.generator.Pix2Pix.Pix2PixGenerator import Pix2PixGenerator

@@ -1,0 +1,65 @@
+settings:
+  use_gpu: True
+  storage_location: './results/structure' # Gets appended with category and model type.
+  dataset_directory: './data/datasets/structure'
+  category: 'living_room'
+  batch_size: 1
+  buffer_size: 256
+  sample: False
+  dataset_size: 500 # limit dataset size due to memory constraints
+  max_n_steps: 100000
+  save_example_per_n_steps: 500
+  save_model_per_n_steps: 1000
+  store_only_last_model: True
+  lr: 0.0002
+
+stabilization:
+  discriminator_noise_input:
+    add: True
+    max_n_steps: 25000
+  label_type: 'fixed'
+  lr_decay:
+    method: 'linear'
+    steps_start: 50000
+    update_every_n_steps: 500
+  ttur:
+    use: False
+    g_lr: 0.0002
+    d_lr: 0.0005
+
+nn_structure:
+  input_shape: (256, 256, 3)
+  latent_vector: 8
+  first_layer_filter_size: 64
+
+  generator:
+    model_type: 'Pix2Pix'
+    z_input_layer: 'first'  # where to add z, options are: ['first', 'intermediate']
+    neural_network: 'Unet'
+    normalization: 'instance'
+    dropout: 0.5
+    activation: 'leakyrelu'
+    filter_size: 64
+
+  discriminator:
+    num_D: 1  # 2 discriminators has been removed for now.
+    normalization: 'instance'
+    dropout: 0
+    activation: 'leakyrelu'
+    loss_function: 'BCE' # Options are ['MSE', 'BCE']
+    filter_size: 64
+
+  encoder:
+    n_res_blocks: 5
+    max_filter_size: 256
+    normalization: 'instance'
+    activation: 'leakyrelu'
+    filter_size: 64
+
+loss_coeffs:
+  DM_loss_coeff: 1  # model sees twice the number of samples per epoch
+  L1_loss_coeff: 10  # image cycle loss
+  KL_loss_coeff: 0.01 # KL divergences loss
+  LRM_loss_coeff: 0.5  # latent cycle loss
+  gan_loss_coeff: 1
+  vaegan_loss_coeff: 1
