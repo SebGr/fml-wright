@@ -48,6 +48,10 @@ The original idea was to use as much `Keras` as possible, however I ran into iss
   oriented direction.
 
 ## Examples
+### Model training
+![alt text](./readme_images/model_training_example.gif "Generated image postprocessing
+ example")
+
 #### Color legend
 Below are the input colors and their meanings.
 ![alt text](./readme_images/color_legend_input.png "Input color per category.")
