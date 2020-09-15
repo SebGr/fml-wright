@@ -49,17 +49,17 @@ The original idea was to use as much `Keras` as possible, however I ran into iss
 
 ## Examples
 ### Model training
-As an example, below is a model during training, that trained for 100k steps.
-The first 25k steps some noise was added, of which the amount of noise during those steps is linearly decreased.
-Then from 50k steps onwards the learning rate was linearly decreased from 0.0002 to 0.0.
+As an example, below is a model during training, that trained for 100k steps.  
+The first 25k steps some noise was added, of which the amount of noise during those steps is linearly decreased.  
+Then from 50k steps onwards the learning rate was linearly decreased from 0.0002 to 0.0.  
 ![alt text](./readme_images/model_training_example.gif "Generated image postprocessing
  example")
 
 #### Color legend
-Below are the input colors and their meanings.
+Below are the input colors and their meanings.  
 ![alt text](./readme_images/color_legend_input.png "Input color per category.")
 
-These are the output colors and their meanings:
+These are the output colors and their meanings:  
 ![alt text](./readme_images/color_legend_output.png "Output color per category.")
 
 ###  Singlestep generation
@@ -67,12 +67,12 @@ This model generates the entire floorplan in a single step, creating both the ro
  the same time.
 
  In the example below, the top left image is the input of the GAN, and the other five floorplans
-  are generated examples.
+  are generated examples.  
 ![alt text](./readme_images/singlestep_generator_example.png "Generator example")
 
 #### Processing example
 The images are transformed from an image to a geodataframe, meaning that the rooms and
- walls become separate mutatable entities.
+ walls become separate mutatable entities.  
 ![alt text](./readme_images/singlestep_processing_example.png "Generated image postprocessing
  example")
 
