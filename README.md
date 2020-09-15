@@ -49,6 +49,9 @@ The original idea was to use as much `Keras` as possible, however I ran into iss
 
 ## Examples
 ### Model training
+As an example, below is a model during training, that trained for 100k steps.
+The first 25k steps some noise was added, of which the amount of noise during those steps is linearly decreased.
+Then from 50k steps onwards the learning rate was linearly decreased from 0.0002 to 0.0.
 ![alt text](./readme_images/model_training_example.gif "Generated image postprocessing
  example")
 
