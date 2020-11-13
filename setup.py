@@ -12,7 +12,7 @@ install_dependencies = [
     "tqdm==4.44",
     "numpy==1.18.2",
     "opencv-python==4.2.0.32",
-    "tensorflow==2.2.0",
+    "tensorflow==2.3.1",
     "tensorflow-addons==0.10.0",
     "networkx==2.4",
     "pyyaml==5.3.1",
