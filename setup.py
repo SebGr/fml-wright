@@ -10,7 +10,7 @@ install_dependencies = [
     "geopandas==0.7.0",
     "descartes==1.1.0",
     "tqdm==4.44",
-    "numpy==1.18.2",
+    "numpy==1.22.0",
     "opencv-python==4.2.0.32",
     "tensorflow==2.2.0",
     "tensorflow-addons==0.10.0",
