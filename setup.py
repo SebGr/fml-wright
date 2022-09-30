@@ -16,7 +16,7 @@ install_dependencies = [
     "tensorflow-addons==0.10.0",
     "networkx==2.4",
     "pyyaml==5.3.1",
-    "joblib==0.16.0",
+    "joblib==1.2.0",
 ]
 
 setuptools.setup(
